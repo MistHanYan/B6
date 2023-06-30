@@ -87,6 +87,19 @@
             <version>1.18.24</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+            <version>3.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.78</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

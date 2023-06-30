@@ -3,9 +3,8 @@ package com.example.controller;
 import com.example.entity.User;
 import com.example.service.UserService;
 import jakarta.annotation.Resource;
-import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -14,11 +13,12 @@ public class UserController {
     @Resource
     UserService userService;
 
-    @GetMapping("/get-user/{id}")
-    public User getUser(@PathVariable String id) {
-//        If the user-id is not the integer, log the error
+    @GetMapping("/LogI")
+    public User getUser(@RequestParam("phoneNum") String phoneNum) {
+        //String id = request.getParameter("id");
 //        TODO
+        //System.out.println(phone_num);
 
-        return userService.getUserById(Integer.parseInt(id));
+        return userService.getUserByPhoneNum(phoneNum);
     }
 }

@@ -17,4 +17,22 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public User getUserByPhoneNum(String phoneNum) {
+        try {
+            return MySQLUtil.queryUserByPhoneNum(phoneNum);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public User setUserBySql(String phoneNum, String userName, String type) {
+        try {
+            return MySQLUtil.insertQueryUserByPhone(phoneNum,userName,type);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

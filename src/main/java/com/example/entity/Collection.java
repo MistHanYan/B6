@@ -5,11 +5,9 @@ import lombok.Data;
 
 @Data
 public class Collection {
-    private Integer userId;
+    private String phone_num;
     private String url;
-
-    // primary key
     private String collectName;
-
+    private String Case;
     private String date;
 }
