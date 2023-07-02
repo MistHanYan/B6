@@ -2,6 +2,9 @@ package com.example.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.entity.Result;
+import com.example.entity.User;
+import com.example.util.db.MySQLUtil;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -12,11 +15,16 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Slf4j
 @Component
 public class LogInCheck implements HandlerInterceptor {
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String url = request.getRequestURI();
         log.info("登录url：{}",url);
         if(url.contains(("SignIn"))){
+            log.info("注册操作，放行。。。");
+            return true;
+        }
+        if(url.contains(("LogIn"))){
             log.info("注册操作，放行。。。");
             return true;
         }
@@ -33,7 +41,8 @@ public class LogInCheck implements HandlerInterceptor {
 
         //5.解析token，如果解析失败，返回错误结果（未登录）。
         try {
-            Token.parseJwt(jwt);
+            Claims claims = Token.parseJwt(jwt);
+            new User().setPhoneNumber(claims.get("phoneNum").toString());
         } catch (Exception e) {//jwt解析失败
             e.printStackTrace();
             log.info("解析令牌失败, 返回未登录错误信息");
@@ -43,9 +52,8 @@ public class LogInCheck implements HandlerInterceptor {
             response.getWriter().write(notLogin);
             return false;
         }
-
         //6.放行。
-        log.info("令牌合法, 放行");
+        log.info("ok");
         return true;
     }
 }

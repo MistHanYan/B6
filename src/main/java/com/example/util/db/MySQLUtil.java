@@ -58,7 +58,7 @@ public final class MySQLUtil {
 
     // 插入电话查询语句，并返回封装的User对象
     public static User queryUserByPhoneNum(String phoneNum) throws SQLException {
-        if(isEmp(getStatement(userQuerySql,phoneNum).executeQuery())){
+        if(new MySQLUtil().phoneIsEmpty(phoneNum)){
             return null;
         }
         return userDataConverter(getStatement(userQuerySql, phoneNum).executeQuery());
@@ -84,7 +84,7 @@ public final class MySQLUtil {
     }
 
     // 判断用户是否在数据库里面
-    public static boolean isEmp(ResultSet set) throws SQLException {
-        return !set.next();
+    public boolean phoneIsEmpty(String phoneNum) throws SQLException {
+        return getStatement(userQuerySql, phoneNum).executeQuery() != null;
     }
 }

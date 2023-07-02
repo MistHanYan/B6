@@ -21,11 +21,10 @@ public class Token implements WebMvcConfigurer {
     }
 
 
-    public static void parseJwt(String jwt){
-        Claims claims = Jwts.parser()
+    public static Claims parseJwt(String jwt){
+        return Jwts.parser()
                 .setSigningKey(signKey)
                 .parseClaimsJws(jwt)
                 .getBody();
-        System.out.println(claims);
     }
 }

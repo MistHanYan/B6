@@ -13,7 +13,7 @@ import java.util.Base64;
 
 
 @RestController
-public class UserController {
+public class Userontroller {
 
     private static final String appId = "YOUR_APPID";
     private static final String appSecret = "YOUR_APP_SECRET";
