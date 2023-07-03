@@ -1,4 +1,4 @@
-package com.example.interceptor;
+package com.example.entity;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -8,9 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.Date;
 import java.util.Map;
 
-
-public class Token implements WebMvcConfigurer {
-
+public class Jwt implements WebMvcConfigurer {
     public static final String signKey = "Mist";
     public static String getJwt(Map<String,Object> claims){
         return Jwts.builder()

@@ -9,14 +9,14 @@ import java.sql.SQLException;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Override
+    /*@Override
     public User getUserById(Integer id) {
         try {
             return MySQLUtil.queryUserById(id.toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     @Override
     public User getUserByPhoneNum(String phoneNum) {

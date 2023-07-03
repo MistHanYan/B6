@@ -53,12 +53,11 @@ public final class MySQLUtil {
         }else{
             return userDataConverter(getStatement(userQuerySql, phoneNum).executeQuery());
         }
-
     }
 
     // 插入电话查询语句，并返回封装的User对象
     public static User queryUserByPhoneNum(String phoneNum) throws SQLException {
-        if(new MySQLUtil().phoneIsEmpty(phoneNum)){
+        if(!new MySQLUtil().phoneIsEmpty(phoneNum)){
             return null;
         }
         return userDataConverter(getStatement(userQuerySql, phoneNum).executeQuery());

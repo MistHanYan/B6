@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.entity.Result;
+import com.example.entity.Token;
 import com.example.entity.User;
 import com.example.service.UserService;
 import jakarta.annotation.Resource;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
-import static com.example.interceptor.Token.getJwt;
+import static com.example.entity.Jwt.getJwt;
 
 
 @RestController
@@ -25,11 +26,11 @@ public class UserController {
         User user = userService.getUserByPhoneNum(phoneNum);
 
         // 判断是否在数据库中存在用户，不存在返回空体
-        if(user != null){
+        if(user.getPhoneNumber().equals(phoneNum)){
             phone.put("phoneNum",user.getPhoneNumber());
             String jwt = getJwt(phone);
             user.setJwt(jwt);
-            return Result.success(user);
+            return Result.success(user.getJwt());
         }else {
             return Result.error("isEmpty");
         }
@@ -45,5 +46,10 @@ public class UserController {
         String jwt =  getJwt(phone);
         user.setJwt(jwt);
         return Result.success(user.getJwt());
+    }
+
+    @GetMapping("/GetPhone")
+    public String getPhone(@RequestParam("code")String code){
+        return new Token().getPhoneNum(new Token().getToken(),code);
     }
 }
