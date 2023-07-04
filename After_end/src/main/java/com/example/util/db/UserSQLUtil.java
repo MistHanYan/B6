@@ -35,13 +35,13 @@ public class UserSQLUtil {
 
     // 插入union_id查询语句，查看用户是否在数据库，存在则查找并包装
     // 如果不存在完成插入数据或注册操作
-    public static User queryUserByUnionId(String union_id , String type) throws SQLException {
-        if(unionIdIsEmpty(union_id , type)){
+    public static User queryUserByUnionId(String union_id) throws SQLException {
+        if(unionIdIsEmpty(union_id)){
             return insertQueryUserByUnionId(union_id,"0" , MySQLUtil.getTime());
         }
         Timestamp timestamp = MySQLUtil.getTime();
         log.info("用户：{}，在{}，登录成功",union_id,timestamp);
-        MySQLUtil.setActivity(union_id);
+        MySQLUtil.setActivity(union_id , "0");
         return queryUserById(union_id);
     }
 
@@ -61,7 +61,7 @@ public class UserSQLUtil {
         }
         return user;
     }
-    public static boolean unionIdIsEmpty(String union_id ,String type) throws SQLException {
-        return !getStatement(userIDQuerySql, union_id ,type).executeQuery().next();
+    public static boolean unionIdIsEmpty(String union_id) throws SQLException {
+        return !getStatement(userIDQuerySql, union_id ,"0").executeQuery().next();
     }
 }

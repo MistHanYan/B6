@@ -3,5 +3,5 @@ package com.example.service;
 import com.example.entity.Admin;
 
 public interface AdminService {
-    Admin getAdminByPhoneNum(String phoneNum);
+    Admin getAdminByPhoneNum(String phoneNum , String passWd);
 }

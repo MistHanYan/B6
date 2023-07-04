@@ -11,7 +11,7 @@ public final class MySQLUtil {
     // 创建接口类
     private static final Connection connection;
 
-    private static final String upDatedTimeSql = "UPDATE tb_user SET activity_time = ? WHERE union_id = ?";
+    private static final String upDatedTimeSql = "UPDATE tb_user SET activity_time = ? WHERE union_id = ? AND type = ?";
 
     // 静态加载驱动
     static {
@@ -44,11 +44,12 @@ public final class MySQLUtil {
     }
 
     // 更新用户登录时间
-    public static void setActivity(String union_id) throws SQLException {
+    public static void setActivity(String union_id , String type) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(upDatedTimeSql);
         Timestamp time = getTime();
         preparedStatement.setTimestamp(1,time);
         preparedStatement.setString(2,union_id);
+        preparedStatement.setString(3,type);
         int row = preparedStatement.executeUpdate();
         if(row > 0){
             log.info("用户:{},在{}时，时间更新成功",union_id,time);

@@ -11,9 +11,9 @@ import java.sql.SQLException;
 public class AdminServiceImpl implements AdminService {
 
     @Override
-    public Admin getAdminByPhoneNum(String phoneNum) {
+    public Admin getAdminByPhoneNum(String phoneNum , String passWd) {
         try {
-            return AdminSQLUtil.queryAdminByPhoneNum(phoneNum);
+            return AdminSQLUtil.queryAdminCheck(phoneNum ,passWd);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
