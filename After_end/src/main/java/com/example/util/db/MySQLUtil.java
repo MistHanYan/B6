@@ -1,12 +1,17 @@
 package com.example.util.db;
 
-import java.sql.*;
+import lombok.extern.slf4j.Slf4j;
 
+import java.sql.*;
+import java.util.Date;
+
+@Slf4j
 public final class MySQLUtil {
-    // 通过union_id查找用户是否在数据库中
-    private static final String userIDQuerySql = "SELECT * FROM tb_user WHERE union_id = ?";
+
     // 创建接口类
     private static final Connection connection;
+
+    private static final String upDatedTimeSql = "UPDATE tb_user SET activity_time = ? WHERE union_id = ?";
 
     // 静态加载驱动
     static {
@@ -33,8 +38,22 @@ public final class MySQLUtil {
         return statement;
     }
 
-    // 判断用户是否在数据库里面
-    public boolean unionIdIsEmpty(String union_id) throws SQLException {
-        return getStatement(userIDQuerySql, union_id).executeQuery() == null;
+    // 获取当前时间
+    public static Timestamp getTime(){
+        return new Timestamp(new Date().getTime());
+    }
+
+    // 更新用户登录时间
+    public static void setActivity(String union_id) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(upDatedTimeSql);
+        Timestamp time = getTime();
+        preparedStatement.setTimestamp(1,time);
+        preparedStatement.setString(2,union_id);
+        int row = preparedStatement.executeUpdate();
+        if(row > 0){
+            log.info("用户:{},在{}时，时间更新成功",union_id,time);
+        }else{
+            log.info("用户：{}，在{}时，时间更新失败",union_id,time);
+        }
     }
 }

@@ -50,8 +50,8 @@ public class UserController {
 
     // 小程序登录，注册
     @GetMapping("/UserLogIn")
-    public Result userLogIn(@RequestParam String union_id){
-        User user = userService.getUserByUnionId(union_id);
+    public Result userLogIn(@RequestParam String union_id ,String type){
+        User user = userService.getUserByUnionId(union_id,type);
         if(user != null && user.getUnion_id().equals(union_id)){
             return Result.success(user);
         }else{

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="546ee412-f944-422a-8dae-ab9a6a3edb8d" name="更改" comment="废弃手机号获取，采用union_id,重新设计数据库结构，抽象数据库工具修改admin登录，小程序登录，admin不能注册，小程序登录即注册">
+      <change beforePath="$PROJECT_DIR$/After_end/src/main/java/com/example/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/After_end/src/main/java/com/example/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/After_end/src/main/java/com/example/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/After_end/src/main/java/com/example/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/After_end/src/main/java/com/example/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/After_end/src/main/java/com/example/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/After_end/src/main/java/com/example/util/db/AdminSQLUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/After_end/src/main/java/com/example/util/db/AdminSQLUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/After_end/src/main/java/com/example/util/db/MySQLUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/After_end/src/main/java/com/example/util/db/MySQLUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/After_end/src/main/java/com/example/util/db/UserSQLUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/After_end/src/main/java/com/example/util/db/UserSQLUtil.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2S46T4om2myAuqncDYHBEjSY9Ou" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/Mist/IdeaProjects/demo",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
+    "spring.configuration.checksum": "fe01ce2a7fbac8fafaed7c982a04e229",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="demo" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.DemoApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="546ee412-f944-422a-8dae-ab9a6a3edb8d" name="更改" comment="" />
+      <created>1688393510802</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1688393510802</updated>
+      <workItem from="1688393512166" duration="967000" />
+      <workItem from="1688457467735" duration="13434000" />
+    </task>
+    <task id="LOCAL-00001" summary="删除异常">
+      <created>1688393727845</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1688393727845</updated>
+    </task>
+    <task id="LOCAL-00002" summary="前端提交测试">
+      <created>1688393764080</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1688393764080</updated>
+    </task>
+    <task id="LOCAL-00003" summary="废弃手机号获取，采用union_id,重新设计数据库结构，抽象数据库工具修改admin登录，小程序登录，admin不能注册，小程序登录即注册">
+      <created>1688464903107</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1688464903107</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="删除异常" />
+    <MESSAGE value="前端提交测试" />
+    <MESSAGE value="废弃手机号获取，采用union_id,重新设计数据库结构，抽象数据库工具修改admin登录，小程序登录，admin不能注册，小程序登录即注册" />
+    <option name="LAST_COMMIT_MESSAGE" value="废弃手机号获取，采用union_id,重新设计数据库结构，抽象数据库工具修改admin登录，小程序登录，admin不能注册，小程序登录即注册" />
+  </component>
+</project>

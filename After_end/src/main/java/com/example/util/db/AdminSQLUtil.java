@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import static com.example.util.db.MySQLUtil.getStatement;
 
 public class AdminSQLUtil {
-
+    // 通过union_id查找用户是否在数据库中
     private static final String AdminIDQuerySql = "SELECT * FROM tb_user WHERE union_id = ?";
 
 
@@ -18,7 +18,7 @@ public class AdminSQLUtil {
 
     // 插入union_id查询语句，查看用户是否在数据库，存在则查找并包装
     public static Admin queryAdminByPhoneNum(String phoneNum) throws SQLException {
-        if(new MySQLUtil().unionIdIsEmpty(phoneNum)){
+        if(unionIdIsEmpty(phoneNum)){
             return null;
         }
         return queryAdminById(phoneNum);
@@ -46,5 +46,8 @@ public class AdminSQLUtil {
         }
 
         return admin;
+    }
+    public static boolean unionIdIsEmpty(String union_id) throws SQLException {
+        return getStatement(AdminIDQuerySql, union_id).executeQuery() == null;
     }
 }

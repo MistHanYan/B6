@@ -11,9 +11,9 @@ import java.sql.SQLException;
 public class UserServiceImpl implements UserService {
 
     @Override
-    public User getUserByUnionId(String union_id) {
+    public User getUserByUnionId(String union_id , String type) {
         try {
-            return UserSQLUtil.queryUserByUnionId(union_id);
+            return UserSQLUtil.queryUserByUnionId(union_id ,type);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
