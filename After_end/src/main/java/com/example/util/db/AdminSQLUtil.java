@@ -17,13 +17,14 @@ public class AdminSQLUtil {
 
     // 插入id查询语句，并返回封装的Admin对象
     public static Admin queryAdminCheck(String phoneNum , String passWd) throws SQLException {
-
+        Timestamp timestamp = MySQLUtil.getTime();
+        System.out.println(passWd+phoneNum);
         if(checkAdminPassWd(getAdminSqlPassWd(phoneNum),passWd)){
-            Timestamp timestamp = MySQLUtil.getTime();
             log.info("admin用户：{}，在{}，登录成功",phoneNum,timestamp);
             updateAdminTime(phoneNum);
             return adminDataConverter(getStatement(AdminIDQuerySql, phoneNum , "1").executeQuery());
         }else {
+            log.info("admin用户：{}，在{}，登录失败",phoneNum,timestamp);
             return null;
         }
     }
@@ -42,7 +43,7 @@ public class AdminSQLUtil {
     public static String getAdminSqlPassWd(String phoneNum) throws SQLException {
         ResultSet set = getStatement(AdminIDQuerySql, phoneNum , "1").executeQuery();
         set.next();
-        return set.getString("union_id");
+        return set.getString("passWd");
     }
 
     // 封装管理员数据

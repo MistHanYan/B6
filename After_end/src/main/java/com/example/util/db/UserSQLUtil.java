@@ -1,13 +1,18 @@
 package com.example.util.db;
 
+import com.example.entity.Collection;
+import com.example.entity.History;
 import com.example.entity.User;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import static com.example.util.db.MySQLUtil.getStatement;
+import static com.example.util.db.MySQLUtil.getTime;
+
 @Slf4j
 public class UserSQLUtil {
     // union_id查询语句
@@ -15,6 +20,21 @@ public class UserSQLUtil {
 
     // 插入数据库数据
     private static final String userInsertQuerySql = "INSERT INTO tb_user (union_id, type , activity_time) VALUES (?,?,?)";
+
+    // 以union_id查找收藏表n列后10行数据
+    private static final String userCollectQuerySql = "SELECT * FROM tb_collect WHERE union_id = ? LIMIT ? OFFSET ?";
+
+    // 以union_id查找历史表n列后10行数据
+    private static final String userHistoryQuerySql = "SELECT * FROM tb_history WHERE union_id = ? LIMIT ? OFFSET ?";
+
+    // 插入历史识别数据
+    private static final String userAddHistorySql = "INSERT INTO tb_history (time,union_id,case_name,img_url) VALUES (?,?,?,?)";
+
+    // 插入收藏数据
+    private static final String userAddCollectSql = "INSERT INTO tb_collect (time,collect_name,union_id,case_name,img_url) VALUES (?,?,?,?,?)";
+
+    // 使用模糊字段查询收藏数据
+    private static final String userSeekCollectSql = "SELECT * FROM tb_collect WHERE union_id = ? AND (collect_name LIKE ? OR case_name LIKE ?)";
 
     // 插入id查询语句，并返回封装的User对象
     public static User queryUserById(String union_id) throws SQLException {
@@ -61,7 +81,98 @@ public class UserSQLUtil {
         }
         return user;
     }
+
+    // 通过union_id判断用户是否存在与数据库
     public static boolean unionIdIsEmpty(String union_id) throws SQLException {
         return !getStatement(userIDQuerySql, union_id ,"0").executeQuery().next();
+    }
+
+    // 插入从n行开始的数据
+    public static ArrayList<Collection> queryUserCollectById(String union_id , int num) throws SQLException {
+        return getCollection(MySQLUtil.showDataInInt(userCollectQuerySql,union_id , num).executeQuery());
+    }
+
+    // 封装查找出来的收藏对象到列表
+    public static ArrayList<Collection> getCollection(ResultSet set) throws SQLException {
+
+        ArrayList<Collection> collections = new ArrayList<>();
+
+        while (set.next()){
+            Collection collection = new Collection();
+            collection.setCollectName(set.getString("collect_name"));
+            collection.setUrl(set.getString("img_url"));
+            collection.setCaseName(set.getString("case_name"));
+            collection.setDate(set.getTimestamp("time"));
+            collections.add(collection);
+        }
+        return collections;
+    }
+
+    // 返回10行从n行开始的后十位历史对象
+    public static ArrayList<History> queryUserHistoryById(String union_id , int num) throws SQLException {
+        return getHistory(MySQLUtil.showDataInInt(userHistoryQuerySql,union_id , num).executeQuery());
+    }
+
+    // 封装查找到的10位历史对象，并添加到ArrayList数组返回
+    public static ArrayList<History> getHistory(ResultSet set) throws SQLException {
+
+        ArrayList<History> histories = new ArrayList<>();
+
+        while (set.next()){
+            History history = new History();
+            history.setUrl(set.getString("img_url"));
+            history.setCase(set.getString("case_name"));
+            history.setDate(set.getTimestamp("time"));
+            histories.add(history);
+        }
+        return histories;
+    }
+
+    // 添加历史记录
+    public static boolean addHistory(History history) throws SQLException {
+        // 执行插入操作
+        if(outcome(MySQLUtil.getInsertSql(userAddHistorySql,
+                getTime(),
+                history.getUnion_id(),
+                history.getCase(),
+                history.getUrl()).executeUpdate())){
+            setLog(history.getUnion_id(),getTime().toString(),"历史记录","");
+            return true;
+        }
+        return false;
+    }
+    public static boolean addCollect(Collection collection) throws SQLException {
+        // 执行插入操作
+        if(outcome(MySQLUtil.getInsertSql(userAddCollectSql,
+                getTime(),
+                collection.getCollectName(),
+                collection.getUnion_id(),
+                collection.getCaseName(),
+                collection.getUrl()).executeUpdate())){
+            setLog(collection.getUnion_id(), getTime().toString(),"收藏", collection.getCollectName());
+            return true;
+        }
+        return false;
+    }
+
+    // 插入数据后结果（历史，收藏）
+    public static boolean outcome(int row){
+        return row > 0;
+    }
+
+    // 收藏，历史记录添加后生成日志
+    public static void setLog(String... statement){
+        log.info("用户：{}，在{}时，{}成功，{}",
+                statement[0],
+                statement[1],
+                statement[2],
+                statement[3]);
+    }
+
+    // 执行搜索语句后结构封装
+    public static ArrayList<Collection> seekCollectOutCome(String union_id , String seekStatement) throws SQLException {
+        String seek = "%"+seekStatement+"%";
+        log.info("用户：{}，在{}时，进行了一次查找",union_id,getTime());
+        return getCollection(getStatement(userSeekCollectSql,union_id,seek,seek).executeQuery());
     }
 }
