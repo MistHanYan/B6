@@ -1,4 +1,4 @@
-package com.example.entity;
+package com.example.discard;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,9 +1,9 @@
 package com.example.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.entity.Admin;
 import com.example.entity.Jwt;
 import com.example.entity.Result;
-import com.example.entity.User;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -42,7 +42,7 @@ public class LogInCheck implements HandlerInterceptor {
         //5.解析token，如果解析失败，返回错误结果（未登录）。
         try {
             Claims claims = Jwt.parseJwt(jwt);
-            new User().setPhoneNumber(claims.get("phoneNum").toString());
+            new Admin().setPhoneNum(claims.get("phoneNum").toString());
         } catch (Exception e) {//jwt解析失败
             e.printStackTrace();
             log.info("解析令牌失败, 返回未登录错误信息");

@@ -7,10 +7,8 @@ import java.sql.Timestamp;
 
 @Data
 public class User {
-    private String username;
-    private String phoneNumber;
+    private String union_id;
     private Integer userId;
     private Timestamp activity;
     private String type;
-    private String jwt;
 }

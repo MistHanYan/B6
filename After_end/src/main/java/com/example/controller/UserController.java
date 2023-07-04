@@ -1,9 +1,11 @@
 package com.example.controller;
 
+import com.example.entity.Admin;
 import com.example.entity.Result;
-import com.example.entity.Token;
 import com.example.entity.User;
+import com.example.service.AdminService;
 import com.example.service.UserService;
+import com.example.util.db.AdminSQLUtil;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,39 +19,43 @@ import static com.example.entity.Jwt.getJwt;
 @RestController
 public class UserController {
     @Resource
-    UserService userService;
+    AdminService adminService;
 
     // 登录成功下发jwt令牌
     @GetMapping("/LogIn")
-    public Result LogInJwt(@RequestParam("phoneNum") String phoneNum){
+    public Result LogInJwt(@RequestParam String phoneNum ,String passWd){
         HashMap<String, Object> phone = new HashMap<>();
-        User user = userService.getUserByPhoneNum(phoneNum);
+        Admin admin = adminService.getAdminByPhoneNum(phoneNum);
 
-        // 判断是否在数据库中存在用户，不存在返回空体
-        if(user.getPhoneNumber().equals(phoneNum)){
-            phone.put("phoneNum",user.getPhoneNumber());
-            String jwt = getJwt(phone);
-            user.setJwt(jwt);
-            return Result.success(user.getJwt());
+        // 判断是否在数据库中存在管理员，不存在返回错误信息
+        // 存在下发jwt
+        if(admin != null){
+            System.out.println(passWd);
+            if(AdminSQLUtil.checkPassWd(admin,passWd)){
+                phone.put("phoneNum",admin.getPhoneNum());
+                String jwt = getJwt(phone);
+                admin.setJwt(jwt);
+                return Result.success(admin);
+            }else {
+                return Result.error("admin is error for passWd ");
+            }
+
         }else {
-            return Result.error("isEmpty");
+            return Result.error("admin isEmpty in sql");
         }
     }
 
-    // 注册成功下发jwt令牌
-    @GetMapping("/SignIn")
-    public Result SignInJwt(@RequestParam("phoneNum") String phoneNum , @RequestParam("userName") String userName){
-        User user = userService.setUserBySql(phoneNum,userName,"false");
-        HashMap<String, Object> phone = new HashMap<>();
-        phone.put("userName",user.getUsername());
-        phone.put("phoneNum",user.getPhoneNumber());
-        String jwt =  getJwt(phone);
-        user.setJwt(jwt);
-        return Result.success(user.getJwt());
-    }
+    @Resource
+    UserService userService;
 
-    @GetMapping("/GetPhone")
-    public String getPhone(@RequestParam("code")String code){
-        return new Token().getPhoneNum(new Token().getToken(),code);
+    // 小程序登录，注册
+    @GetMapping("/UserLogIn")
+    public Result userLogIn(@RequestParam String union_id){
+        User user = userService.getUserByUnionId(union_id);
+        if(user != null && user.getUnion_id().equals(union_id)){
+            return Result.success(user);
+        }else{
+            return Result.error("注册失败，请联系管理员");
+        }
     }
 }
