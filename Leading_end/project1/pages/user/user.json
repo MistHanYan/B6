@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "Component-bootom-name": "../Component/Component_Nbar/Component_Nbar"
+  },
+  "navigationBarTitleText": "用户页面"
+}

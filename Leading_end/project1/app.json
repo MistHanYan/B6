@@ -1,0 +1,26 @@
+{
+  "pages": [
+    "pages/recognintion/recognition",
+    "pages/user/user",
+    "pages/outcome/outcome",
+    "pages/collect/collect",
+    "pages/logs/logs",
+    "pages/about/about",
+    "pages/feedback/feedback",
+    "pages/history/history",
+    "pages/Component/Component_Nbar/Component_Nbar",
+    "pages/Component/Compoent_identify/Compoent_identify",
+    "pages/Component/Component_collect/Component_collect",
+    "pages/collect_outcome/collect_outcome",
+    "pages/history_outcome/history_outcome"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#45BB00",
+    "navigationBarTitleText": "Weixin",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#aaa"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,26 @@
+<!--pages/about/about.wxml-->
+<view class="about">
+  <view class="style">
+    <text>设备型号: {{model}}</text>
+  </view>
+  <view class="style">
+    <text>微信设置的语言:{{language}}</text>
+  </view>
+  <view class="style">
+    <text>微信版本号：{{version}}</text>
+  </view>
+  <view class="style">
+    <text>操作系统及版本号：{{system}}</text>
+  </view>
+  <view class="style">
+    <text>客户端版本号：{{platform}}</text>
+  </view>
+  <view style="font-size: 13px;">
+    <text>《软件许可服务协议》
+    《隐私协议保护指引再要》
+    《隐私保护协议》
+    客服电话：我也不清楚
+    所有人：张阳，戴阳，王渠，张鸿亮，张鹏团队所有
+    </text>
+  </view>
+</view>

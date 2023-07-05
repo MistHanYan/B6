@@ -1,0 +1,22 @@
+/* pages/collect_outcome/collect_outcome.wxss */
+.nameandetime{
+  width: 100%;
+  display: flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  margin-bottom: 10px;
+}
+
+.name{
+  width: 80%;
+  height: 10vh;
+  border-radius: 9px;
+  background-color: cornflowerblue;
+  margin: 10px 10px;
+  display: flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  margin-bottom: 10px;
+}

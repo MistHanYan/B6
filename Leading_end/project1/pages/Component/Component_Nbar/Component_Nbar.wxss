@@ -1,0 +1,14 @@
+/* pages/Component/Component_Nbar/Component_Nbar.wxss */
+.Nbar{
+  display: flex;
+  width: 100%;
+  height: 15vh;
+  justify-content :space-around;
+  align-items:center;
+  /* flex-direction:column; */
+  text-align: center;
+}
+
+.Nbar-child{
+  width: 20%;
+}

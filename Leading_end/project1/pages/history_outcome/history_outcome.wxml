@@ -1,0 +1,12 @@
+<!--pages/history_outcome/history_outcome.wxml-->
+<view>
+  <image src="" mode="" />
+</view>
+<view class="nameandetime">
+  <view class="name">
+    <text>{{name}}</text>
+  </view>
+  <view class="name">
+    <text>{{time}}</text>
+  </view>
+</view>
