@@ -1,4 +1,4 @@
-/* pages/collect_outcome/collect_outcome.wxss */
+/* pages/history_outcome/history_outcome.wxss */
 .nameandetime{
   width: 100%;
   display: flex;

@@ -1,6 +1,6 @@
 // pages/recognintion/recognition.js
 
-const appInstance  = getApp()
+const appInstance = getApp()
 Page({
 
   /**
@@ -9,9 +9,9 @@ Page({
   data: {
     // 用来承载图片路径
     imgPath: "",
-    name:"植物病名称",
-    xiangshidu:"90%",
-    show:true
+    name: "植物病名称",
+    xiangshidu: "90%",
+    show: true
   },
 
   /**
@@ -21,13 +21,24 @@ Page({
     var that = this;
     wx.chooseMedia({
       count: 1,
-      mediaType: ['image', 'video'],
+      mediaType: ['image'],
       sourceType: ['album', 'camera'],
-      maxDuration: 30,
       camera: 'back',
       success(res) {
-        that.setData({
-          imgPath: res.tempFiles[0].tempFilePath
+        console.log(res.tempFiles[0].tempFilePath)
+        wx.saveFile({
+          tempFilePath: res.tempFiles[0].tempFilePath, // 临时文件路径
+          success(res) {
+            var savedFilePath = res.savedFilePath; // 保存后的文件路径
+            // 在这里进行后续操作，比如显示图片、上传文件等
+            console.log(savedFilePath)
+            that.setData({
+              imgPath: savedFilePath
+            })
+          },
+          fail(e){
+            console.log(e)
+          }
         })
       },
     })
@@ -40,28 +51,17 @@ Page({
     console.log(imgPath)
     console.log(appInstance.globalData)
     this.setData({
-      show : !show
+      show: !show
     })
-    // 跳转到识别页面，并传递image图片
-    // wx.navigateTo({
-    //   // url: '/pages/user/user',
-    //   url: '/pages/outcome/outcome',
-    //   success: function (res) {
-    //     // 通过eventChannel向被打开页面传送数据
-    //     res.eventChannel.emit('acceptDataFromOpenerPage', {
-    //       imgPath: imgPath
-    //     })
-    //   }
-    // })
   },
 
   // 弹出收藏对话框
-  addsouchang(){
+  addsouchang() {
     wx.showModal({
       title: '请输入收藏名',
       content: '',
-      editable:true,
-      success (res) {
+      editable: true,
+      success(res) {
         if (res.confirm) {
           console.log('用户点击确定')
           console.log(res.content)
@@ -73,10 +73,10 @@ Page({
   },
 
   // 切换显示按钮
-  backHome(){
+  backHome() {
     var show = this.data.show
     this.setData({
-      show : !show
+      show: !show
     })
   },
 

@@ -12,7 +12,7 @@
   <text>{{inputValue}}</text>
   <!-- 结果呈现 -->
   <view wx:if="{{show}}">
-    <view class="show" wx:for="{{img_name_time}}" bindtap="collect_outcome">
+    <view class="show" wx:for="{{img_name_time}}" wx:key="index" data-index="{{index}}" bindtap="collect_outcome">
       <!-- 图片显示 -->
       <!-- <view class="img"> -->
       <!-- </view> -->

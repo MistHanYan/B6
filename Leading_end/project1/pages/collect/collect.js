@@ -39,15 +39,18 @@ Page({
   },
 
   // 跳转到收藏呈现结果页面，并且传值
-  collect_outcome() {
+  collect_outcome(event) {
+    var index = event.currentTarget.dataset.index;
+    var clickedElement = this.data.img_name_time[index];
+    console.log('用户点击了元素：', clickedElement.name,clickedElement.time);
     wx.navigateTo({
       url: '/pages/collect_outcome/collect_outcome',
       // events: events,
       success: (result) => {
         // 通过eventChannel向被打开页面传送数据
         result.eventChannel.emit('acceptDataFromOpenerPage', {
-          name: this.data.img_name_time[0].name,
-          time: this.data.img_name_time[0].time
+          name: clickedElement.name,
+          time: clickedElement.time
         })
       }
     })

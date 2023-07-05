@@ -38,6 +38,23 @@ Page({
     })
   },
 
+  history_outcome(event){
+    var index = event.currentTarget.dataset.index;
+    var clickedElement = this.data.img_name_time[index];
+    console.log('用户点击了元素：', clickedElement.name,clickedElement.time);
+    wx.navigateTo({
+      url: '/pages/history_outcome/history_outcome',
+      // events: events,
+      success: (result) => {
+        // 通过eventChannel向被打开页面传送数据
+        result.eventChannel.emit('acceptDataFromOpenerPage', {
+          name: clickedElement.name,
+          time: clickedElement.time
+        })
+      }
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
