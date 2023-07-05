@@ -4,18 +4,16 @@ import com.example.entity.Collection;
 import com.example.entity.History;
 import com.example.entity.User;
 import lombok.extern.slf4j.Slf4j;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import static com.example.util.db.MySQLUtil.getStatement;
-import static com.example.util.db.MySQLUtil.getTime;
+import static com.example.util.db.MySQLUtil.*;
 
 @Slf4j
 public class UserSQLUtil {
-    // union_id查询语句
+    // union_id查询语句,查找用户
     private static final String userIDQuerySql = "SELECT * FROM tb_user WHERE union_id = ? AND type = ?";
 
     // 插入数据库数据
@@ -36,6 +34,12 @@ public class UserSQLUtil {
     // 使用模糊字段查询收藏数据
     private static final String userSeekCollectSql = "SELECT * FROM tb_collect WHERE union_id = ? AND (collect_name LIKE ? OR case_name LIKE ?)";
 
+    // 删除收藏语句
+    private static final String userDeleteCollect = "DELETE FROM tb_collect WHERE union_id = ? AND indexID = ?";
+
+    // 查找用户收藏，查该用户添加收藏时，其设置的项目名是否存在；
+    private static final String userCollectName = "SELECT * FROM tb_collect WHERE union_id = ? AND collect_name = ?";
+
     // 插入id查询语句，并返回封装的User对象
     public static User queryUserById(String union_id) throws SQLException {
         return userDataConverter(getStatement(userIDQuerySql, union_id , "0").executeQuery());
@@ -44,12 +48,12 @@ public class UserSQLUtil {
     // 向数据库插入数据
     public static User insertQueryUserByUnionId(String union_id , String type , Timestamp time) throws SQLException {
         int rows = getStatement(userInsertQuerySql, union_id , type , time.toString()).executeUpdate();
-        if(rows == 0){
-            log.info("用户：{}，在{}时，注册失败",union_id,time);
-            return null;
-        }else{
+        if(rows > 0){
             log.info("用户：{}，在{}时，注册成功",union_id,time);
             return queryUserById(union_id);
+        }else{
+            log.info("用户：{}，在{}时，注册失败",union_id,time);
+            return null;
         }
     }
 
@@ -100,6 +104,7 @@ public class UserSQLUtil {
         while (set.next()){
             Collection collection = new Collection();
             collection.setCollectName(set.getString("collect_name"));
+            collection.setProjectID(String.valueOf(set.getInt("indexID")));
             collection.setUrl(set.getString("img_url"));
             collection.setCaseName(set.getString("case_name"));
             collection.setDate(set.getTimestamp("time"));
@@ -141,16 +146,22 @@ public class UserSQLUtil {
         }
         return false;
     }
+
+    // 在数据库中，没有出现，该用户收藏项目名称与本次插入时项目名称冲突时，插入收藏对象
     public static boolean addCollect(Collection collection) throws SQLException {
-        // 执行插入操作
-        if(outcome(MySQLUtil.getInsertSql(userAddCollectSql,
-                getTime(),
-                collection.getCollectName(),
-                collection.getUnion_id(),
-                collection.getCaseName(),
-                collection.getUrl()).executeUpdate())){
-            setLog(collection.getUnion_id(), getTime().toString(),"收藏", collection.getCollectName());
-            return true;
+        if(!getStatement(userCollectName,collection.getUnion_id(),collection.getCollectName()).executeQuery().next()){
+            // 执行插入操作
+            if(outcome(MySQLUtil.getInsertSql(userAddCollectSql,
+                    getTime(),
+                    collection.getCollectName(),
+                    collection.getUnion_id(),
+                    collection.getCaseName(),
+                    collection.getUrl()).executeUpdate())){
+                setLog(collection.getUnion_id(), getTime().toString(),"收藏", collection.getCollectName());
+                return true;
+            }else {
+                return false;
+            }
         }
         return false;
     }
@@ -172,7 +183,18 @@ public class UserSQLUtil {
     // 执行搜索语句后结构封装
     public static ArrayList<Collection> seekCollectOutCome(String union_id , String seekStatement) throws SQLException {
         String seek = "%"+seekStatement+"%";
-        log.info("用户：{}，在{}时，进行了一次查找",union_id,getTime());
+        log.info("用户：{}，在{}时，进行了一次收藏查找, 查找字段{} ",union_id,getTime(),seekStatement);
         return getCollection(getStatement(userSeekCollectSql,union_id,seek,seek).executeQuery());
+    }
+
+    // 删除某个收藏
+    public static boolean deleteProject(String union_id,String projectID) throws SQLException {
+        if(MySQLUtil.getDeleteCollectSql(userDeleteCollect,union_id,projectID).executeUpdate() > 0){
+            log.info("用户：{}，在{}时，成功进行了删除收藏操作，收藏项目{}",union_id,getTime(),projectID);
+            return true;
+        }else {
+            log.info("用户：{}，在{}时，进行删除收藏操作失败，收藏项目{}",union_id,getTime(),projectID);
+            return false;
+        }
     }
 }

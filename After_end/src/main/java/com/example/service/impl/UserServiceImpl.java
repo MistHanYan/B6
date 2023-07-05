@@ -3,7 +3,6 @@ package com.example.service.impl;
 import com.example.entity.Collection;
 import com.example.entity.History;
 import com.example.entity.User;
-import com.example.entity.request.Collect;
 import com.example.service.UserService;
 import com.example.util.db.UserSQLUtil;
 import org.springframework.stereotype.Service;
@@ -72,6 +71,15 @@ public class UserServiceImpl implements UserService {
     public ArrayList<Collection> seekCollect(String seekStatement , String union_id) {
         try {
             return UserSQLUtil.seekCollectOutCome(union_id,seekStatement);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean deleteUserProject(String union_id, String projectID) {
+        try {
+            return UserSQLUtil.deleteProject(union_id,projectID);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

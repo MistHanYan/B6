@@ -20,4 +20,6 @@ public interface UserService {
     boolean addUserCollect(Collection collection);
 
     ArrayList<Collection> seekCollect(String seekStatement , String union_id);
+
+    boolean deleteUserProject(String union_id, String projectID);
 }

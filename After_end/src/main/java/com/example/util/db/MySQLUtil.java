@@ -86,4 +86,17 @@ public final class MySQLUtil {
         }
         return statement;
     }
+
+    // 封装删除收藏语句
+    public static PreparedStatement getDeleteCollectSql(String sql, String union_id , String projectID){
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1,union_id);
+            statement.setInt(2, Integer.parseInt(projectID));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return statement;
+    }
 }
