@@ -3,10 +3,11 @@ package com.example.util.db;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
-import java.util.Date;
+
+import static com.example.util.time.GetSystemTime.getTime;
 
 @Slf4j
-public final class MySQLUtil {
+public final class MySQLUtil{
 
     // 创建接口类
     private static final Connection connection;
@@ -36,11 +37,6 @@ public final class MySQLUtil {
             throw new RuntimeException(e);
         }
         return statement;
-    }
-
-    // 获取当前时间
-    public static Timestamp getTime(){
-        return new Timestamp(new Date().getTime());
     }
 
     // 更新用户登录时间
@@ -98,5 +94,15 @@ public final class MySQLUtil {
             throw new RuntimeException(e);
         }
         return statement;
+    }
+
+    public static int timedDelete(String timedDeleteSql){
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement(timedDeleteSql);
+            return statement.executeUpdate();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 }

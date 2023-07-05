@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import static com.example.util.db.MySQLUtil.getStatement;
+import static com.example.util.time.GetSystemTime.getTime;
 
 @Slf4j
 public class AdminSQLUtil {
@@ -17,7 +18,7 @@ public class AdminSQLUtil {
 
     // 插入id查询语句，并返回封装的Admin对象
     public static Admin queryAdminCheck(String phoneNum , String passWd) throws SQLException {
-        Timestamp timestamp = MySQLUtil.getTime();
+        Timestamp timestamp = getTime();
         System.out.println(passWd+phoneNum);
         if(checkAdminPassWd(getAdminSqlPassWd(phoneNum),passWd)){
             log.info("admin用户：{}，在{}，登录成功",phoneNum,timestamp);

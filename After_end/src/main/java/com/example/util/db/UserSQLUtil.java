@@ -9,10 +9,11 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import static com.example.util.db.MySQLUtil.*;
+import static com.example.util.db.MySQLUtil.getStatement;
+import static com.example.util.time.GetSystemTime.getTime;
 
 @Slf4j
-public class UserSQLUtil {
+public class UserSQLUtil{
     // union_id查询语句,查找用户
     private static final String userIDQuerySql = "SELECT * FROM tb_user WHERE union_id = ? AND type = ?";
 
@@ -61,9 +62,9 @@ public class UserSQLUtil {
     // 如果不存在完成插入数据或注册操作
     public static User queryUserByUnionId(String union_id) throws SQLException {
         if(unionIdIsEmpty(union_id)){
-            return insertQueryUserByUnionId(union_id,"0" , MySQLUtil.getTime());
+            return insertQueryUserByUnionId(union_id,"0" , getTime());
         }
-        Timestamp timestamp = MySQLUtil.getTime();
+        Timestamp timestamp = getTime();
         log.info("用户：{}，在{}，登录成功",union_id,timestamp);
         MySQLUtil.setActivity(union_id , "0");
         return queryUserById(union_id);
