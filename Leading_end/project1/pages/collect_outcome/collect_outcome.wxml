@@ -1,0 +1,7 @@
+<!--pages/collect_outcome/collect_outcome.wxml-->
+<view>
+  <text>{{name}}</text>
+</view>
+<view>
+  <text>{{time}}</text>
+</view>

@@ -1,0 +1,29 @@
+<!--pages/recognintion/recognition.wxml，识别页面-->
+
+<view class="shibie">
+  <view class="identify">
+    <!-- 展示图片 -->
+    <image src="{{imgPath}}" mode="aspectFit" class="identify_img" />
+  </view>
+  <view class="Display-Results">
+    <view>
+      <text>{{ name }}</text>
+    </view>
+    <view>
+      <text>相似度：{{ xiangshidu }}</text>
+    </view>
+  </view>
+  <!-- 这里打开相册，然后点击识别图片 -->
+  <view class="join-and-return" wx:if="{{ show }}">
+    <button class="join" bindtap="open">打开相册</button>
+    <!-- 识别图片 -->
+    <button class="join" bindtap="outcome">识别图片</button>
+  </view>
+  <view class="join-and-return" wx:if="{{ !show }}">
+    <!-- 加入收藏 -->
+    <button class="join" bindtap="addsouchang">加入收藏</button>
+    <!-- 返回首页 -->
+    <button class="join" bindtap="backHome">返回首页</button>
+  </view>
+</view>
+<Component-bootom-name></Component-bootom-name>

@@ -1,0 +1,5 @@
+<!--pages/feedback/feedback.wxml 问题反馈页面-->
+<view class="feedback">
+  <input class="weui-input" auto-focus placeholder="问题反馈"/>
+  <button class="sending">发送</button>
+</view>

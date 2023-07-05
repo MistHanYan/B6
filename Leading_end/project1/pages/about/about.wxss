@@ -1,0 +1,18 @@
+/* pages/about/about.wxss */
+.about{
+  height: 100vh;
+  display: flex;
+  justify-content :center;
+  align-items:center;
+  flex-direction:column;
+}
+
+.style{
+  width: 70%;
+  height: 100rpx;
+  background-color:chartreuse;
+  margin: 20rpx;
+  padding: 20rpx;
+  line-height: 100rpx;
+  border-radius: 9px;
+}

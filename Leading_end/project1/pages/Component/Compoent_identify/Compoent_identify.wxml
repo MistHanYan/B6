@@ -1,0 +1,21 @@
+<!--pages/Component/Compoent_identify/Compoent_identify.wxml-->
+<view class="top">
+<!-- 跳转到 用户界面 -->
+  <view class="top-user" bindtap="user">
+    <!-- 获取头像 -->
+    <view class="top-user-image">
+      <view class="userinfo-avatar" >
+        <image src="{{ image }}" mode="" class="image"/>
+      </view>
+    </view>
+    <!-- 获取名称 -->
+    <view class="right-username">
+      <view class="userNickName">
+        <text>{{ name }}</text>
+      </view>
+      <view class="id">
+      id：{{id}}
+      </view>
+    </view>
+  </view>
+</view>

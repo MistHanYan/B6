@@ -1,0 +1,33 @@
+<!--pages/index-user/inderx_user.wxml，用户页面-->
+<view class="top">
+  <!-- 显示头像 -->
+  <view class="top-top">
+    <view class="userinfo">
+      <block wx:if="{{!hasUserInfo}}">
+        <!-- <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button> -->
+        <!-- 这是判断版本是否可用 -->
+        <!-- <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+        <block wx:else> -->
+          <image bindtap="user" class="userinfo-avatar" src="{{ image }}" mode="cover"></image>
+          <text class="userinfo-nickname">{{ name }}</text>
+          <text>{{id}}</text>
+        <!-- </block> -->
+      </block>
+      <!-- 判断版本是否正确 -->
+      <block wx:else>
+        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+      </block>
+    </view>
+  </view>
+  <view class="top-bottom">
+    <view class="top-center">
+      <view class="topw-center-1" bindtap="feedback">问题反馈</view>
+      <view class="topw-center-1" bindtap="history">历史记录</view>
+      <view class="topw-center-1" bindtap="about">关于版本号信息</view>
+    </view>
+  </view>
+</view>
+<view>
+  <Component-bootom-name></Component-bootom-name>
+</view>
