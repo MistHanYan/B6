@@ -1,4 +1,4 @@
-package com.example.entity;
+package com.example.util.jwt_token;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

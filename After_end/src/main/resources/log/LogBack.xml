@@ -1,0 +1,14 @@
+<configuration>
+    <!-- 定义日志输出到文件的 appender -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>OperationOfSystem.log</file>
+        <encoder>
+            <pattern>%date [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 定义根日志记录器 -->
+    <root level="error">
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>

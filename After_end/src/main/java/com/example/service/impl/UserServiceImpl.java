@@ -2,8 +2,8 @@ package com.example.service.impl;
 
 import com.example.entity.Collection;
 import com.example.entity.History;
-import com.example.entity.User;
 import com.example.service.UserService;
+import com.example.util.db.MySQLUtil;
 import com.example.util.db.UserSQLUtil;
 import org.springframework.stereotype.Service;
 
@@ -14,36 +14,38 @@ import java.util.ArrayList;
 public class UserServiceImpl implements UserService {
 
     @Override
-    public User getUserByUnionId(String union_id) {
+    public boolean addUser(String union_id) throws SQLException {
+        return UserSQLUtil.queryUserByUnionId(union_id);
+    }
+
+    @Override
+    public boolean updateLogInOfTime(String union_id) throws SQLException {
+        return MySQLUtil.setActivity(union_id,"0");
+    }
+
+    @Override
+    public ArrayList<Collection> getUserCollectByUnionId(String union_id, String num ,String end) {
         try {
-            return UserSQLUtil.queryUserByUnionId(union_id);
+            return UserSQLUtil.queryUserCollectById(union_id,Integer.parseInt(num),Integer.parseInt(end));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Override
-    public ArrayList<Collection> getUserCollectByUnionId(String union_id, int num) {
-        try {
-            return UserSQLUtil.queryUserCollectById(union_id,num);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public boolean checkUnionId(String union_id) {
         try {
-            return !UserSQLUtil.unionIdIsEmpty(union_id);
+            return UserSQLUtil.unionIdIsEmpty(union_id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public ArrayList<History> getUserHistoryByUnionId(String union_id, int num) {
+    public ArrayList<History> getUserHistoryByUnionId(String union_id, String num ,String end) {
         try {
-            return UserSQLUtil.queryUserHistoryById(union_id,num);
+            return UserSQLUtil.queryUserHistoryById(union_id,Integer.parseInt(num),Integer.parseInt(end));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

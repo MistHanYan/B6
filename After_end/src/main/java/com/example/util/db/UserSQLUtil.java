@@ -2,14 +2,13 @@ package com.example.util.db;
 
 import com.example.entity.Collection;
 import com.example.entity.History;
-import com.example.entity.User;
 import lombok.extern.slf4j.Slf4j;
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import static com.example.util.db.MySQLUtil.getStatement;
+import static com.example.util.db.MySQLUtil.*;
 import static com.example.util.time.GetSystemTime.getTime;
 
 @Slf4j
@@ -18,7 +17,7 @@ public class UserSQLUtil{
     private static final String userIDQuerySql = "SELECT * FROM tb_user WHERE union_id = ? AND type = ?";
 
     // 插入数据库数据
-    private static final String userInsertQuerySql = "INSERT INTO tb_user (union_id, type , activity_time) VALUES (?,?,?)";
+    private static final String userInsertQuerySql = "INSERT INTO tb_user (activity_time , union_id , type) VALUES (?,?,0)";
 
     // 以union_id查找收藏表n列后10行数据
     private static final String userCollectQuerySql = "SELECT * FROM tb_collect WHERE union_id = ? LIMIT ? OFFSET ?";
@@ -41,107 +40,46 @@ public class UserSQLUtil{
     // 查找用户收藏，查该用户添加收藏时，其设置的项目名是否存在；
     private static final String userCollectName = "SELECT * FROM tb_collect WHERE union_id = ? AND collect_name = ?";
 
-    // 插入id查询语句，并返回封装的User对象
-    public static User queryUserById(String union_id) throws SQLException {
-        return userDataConverter(getStatement(userIDQuerySql, union_id , "0").executeQuery());
-    }
-
     // 向数据库插入数据
-    public static User insertQueryUserByUnionId(String union_id , String type , Timestamp time) throws SQLException {
-        int rows = getStatement(userInsertQuerySql, union_id , type , time.toString()).executeUpdate();
-        if(rows > 0){
-            log.info("用户：{}，在{}时，注册成功",union_id,time);
-            return queryUserById(union_id);
-        }else{
-            log.info("用户：{}，在{}时，注册失败",union_id,time);
-            return null;
-        }
+    public static boolean insertQueryUserByUnionId(String union_id , Timestamp time) throws SQLException {
+        int rows = getInsertSql(userInsertQuerySql , time , union_id).executeUpdate();
+        return rows > 0;
     }
 
-    // 插入union_id查询语句，查看用户是否在数据库，存在则查找并包装
-    // 如果不存在完成插入数据或注册操作
-    public static User queryUserByUnionId(String union_id) throws SQLException {
-        if(unionIdIsEmpty(union_id)){
-            return insertQueryUserByUnionId(union_id,"0" , getTime());
-        }
+    // 完成插入数据或注册操作
+    public static boolean queryUserByUnionId(String union_id) throws SQLException {
+
         Timestamp timestamp = getTime();
-        log.info("用户：{}，在{}，登录成功",union_id,timestamp);
-        MySQLUtil.setActivity(union_id , "0");
-        return queryUserById(union_id);
-    }
-
-    // 封装User对象
-    private static User userDataConverter(ResultSet set) {
-        User user = new User();
-
-        try {
-            while (set.next()) {
-                user.setUserId(set.getInt("user_id"));
-                user.setUnion_id(set.getString("union_id"));
-                user.setActivity(set.getTimestamp("activity_time"));
-                user.setType(set.getString("type"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if(insertQueryUserByUnionId(union_id,getTime())){
+            log.info("用户：{}，在{}，注册成功",union_id,timestamp);
+            return true;
+        }else {
+            log.info("用户：{}，在{}，注册失败",union_id,timestamp);
+            return false;
         }
-        return user;
     }
+
+
 
     // 通过union_id判断用户是否存在与数据库
     public static boolean unionIdIsEmpty(String union_id) throws SQLException {
-        return !getStatement(userIDQuerySql, union_id ,"0").executeQuery().next();
+        return getStatement(userIDQuerySql, union_id ,"0").executeQuery().next();
     }
 
     // 插入从n行开始的数据
-    public static ArrayList<Collection> queryUserCollectById(String union_id , int num) throws SQLException {
-        return getCollection(MySQLUtil.showDataInInt(userCollectQuerySql,union_id , num).executeQuery());
-    }
-
-    // 封装查找出来的收藏对象到列表
-    public static ArrayList<Collection> getCollection(ResultSet set) throws SQLException {
-
-        ArrayList<Collection> collections = new ArrayList<>();
-
-        while (set.next()){
-            Collection collection = new Collection();
-            collection.setCollectName(set.getString("collect_name"));
-            collection.setProjectID(String.valueOf(set.getInt("indexID")));
-            collection.setUrl(set.getString("img_url"));
-            collection.setCaseName(set.getString("case_name"));
-            collection.setDate(set.getTimestamp("time"));
-            collections.add(collection);
-        }
-        return collections;
+    public static ArrayList<Collection> queryUserCollectById(String union_id , int num , int end) throws SQLException {
+        return getCollection(MySQLUtil.showDataInInt(userCollectQuerySql,union_id , num , end).executeQuery());
     }
 
     // 返回10行从n行开始的后十位历史对象
-    public static ArrayList<History> queryUserHistoryById(String union_id , int num) throws SQLException {
-        return getHistory(MySQLUtil.showDataInInt(userHistoryQuerySql,union_id , num).executeQuery());
-    }
-
-    // 封装查找到的10位历史对象，并添加到ArrayList数组返回
-    public static ArrayList<History> getHistory(ResultSet set) throws SQLException {
-
-        ArrayList<History> histories = new ArrayList<>();
-
-        while (set.next()){
-            History history = new History();
-            history.setUrl(set.getString("img_url"));
-            history.setCase(set.getString("case_name"));
-            history.setDate(set.getTimestamp("time"));
-            histories.add(history);
-        }
-        return histories;
+    public static ArrayList<History> queryUserHistoryById(String union_id , int num , int end) throws SQLException {
+        return getHistory(MySQLUtil.showDataInInt(userHistoryQuerySql,union_id , num , end).executeQuery());
     }
 
     // 添加历史记录
     public static boolean addHistory(History history) throws SQLException {
         // 执行插入操作
-        if(outcome(MySQLUtil.getInsertSql(userAddHistorySql,
-                getTime(),
-                history.getUnion_id(),
-                history.getCase(),
-                history.getUrl()).executeUpdate())){
+        if(MySQLUtil.addHistory(history,userAddHistorySql)){
             setLog(history.getUnion_id(),getTime().toString(),"历史记录","");
             return true;
         }
@@ -150,26 +88,15 @@ public class UserSQLUtil{
 
     // 在数据库中，没有出现，该用户收藏项目名称与本次插入时项目名称冲突时，插入收藏对象
     public static boolean addCollect(Collection collection) throws SQLException {
-        if(!getStatement(userCollectName,collection.getUnion_id(),collection.getCollectName()).executeQuery().next()){
+        if(!MySQLUtil.collectIsEmpty(userCollectName,collection.getUnion_id(),collection.getCollectName())){
             // 执行插入操作
-            if(outcome(MySQLUtil.getInsertSql(userAddCollectSql,
-                    getTime(),
-                    collection.getCollectName(),
-                    collection.getUnion_id(),
-                    collection.getCaseName(),
-                    collection.getUrl()).executeUpdate())){
+            if(MySQLUtil.addCollect(userAddCollectSql,collection)){
                 setLog(collection.getUnion_id(), getTime().toString(),"收藏", collection.getCollectName());
                 return true;
-            }else {
-                return false;
             }
+            return false;
         }
         return false;
-    }
-
-    // 插入数据后结果（历史，收藏）
-    public static boolean outcome(int row){
-        return row > 0;
     }
 
     // 收藏，历史记录添加后生成日志
@@ -189,12 +116,12 @@ public class UserSQLUtil{
     }
 
     // 删除某个收藏
-    public static boolean deleteProject(String union_id,String projectID) throws SQLException {
+    public static boolean deleteProject(String union_id, String projectID) throws SQLException {
         if(MySQLUtil.getDeleteCollectSql(userDeleteCollect,union_id,projectID).executeUpdate() > 0){
             log.info("用户：{}，在{}时，成功进行了删除收藏操作，收藏项目{}",union_id,getTime(),projectID);
             return true;
         }else {
-            log.info("用户：{}，在{}时，进行删除收藏操作失败，收藏项目{}",union_id,getTime(),projectID);
+            log.error("用户：{}，在{}时，进行删除收藏操作失败，收藏项目{}",union_id,getTime(),projectID);
             return false;
         }
     }
