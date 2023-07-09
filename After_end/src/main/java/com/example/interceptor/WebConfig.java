@@ -19,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(adminCheck).addPathPatterns("/LogIn","/AllUser/**","/AdminSeek/**","/AdminDelete/**",
-                "/AdminUpdate/**","/AdminToCollect/**","/AdminToHistory/**");
+                "/AdminUpdate/**","/AdminToCollect/**","/AdminToHistory/**","/Check");
         registry.addInterceptor(userCheck).addPathPatterns("/UserLogIn","/history/**","/collect/**");
     }
 }

@@ -5,6 +5,7 @@ import com.example.entity.History;
 import com.example.service.UserService;
 import com.example.util.db.MySQLUtil;
 import com.example.util.db.UserSQLUtil;
+import com.example.util.recognition.RecognitionRep;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -85,6 +86,11 @@ public class UserServiceImpl implements UserService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String recognition(String imgUrl) {
+        return RecognitionRep.discernOutcome(imgUrl);
     }
 
 }

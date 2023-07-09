@@ -87,4 +87,8 @@ public class UserController {
         return Result.error("操作失败");
     }
 
+    @GetMapping("/recognition")
+    public Result recognition(@RequestParam String imgUrl){
+        return Result.success(userService.recognition(imgUrl));
+    }
 }

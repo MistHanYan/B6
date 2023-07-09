@@ -35,4 +35,6 @@ public interface UserService {
 
     // 删除用户
     boolean deleteUserProject(String union_id, String projectID);
+
+    String recognition(String imgUrl);
 }

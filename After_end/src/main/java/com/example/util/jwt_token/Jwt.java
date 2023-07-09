@@ -14,7 +14,7 @@ public class Jwt implements WebMvcConfigurer {
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, signKey)
                 .setClaims(claims)
-                .setExpiration(new Date(System.currentTimeMillis() + 3600*1000))
+                .setExpiration(new Date(System.currentTimeMillis() + 24*3600*1000))
                 .compact();
     }
 
