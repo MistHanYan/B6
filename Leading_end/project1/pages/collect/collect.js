@@ -1,4 +1,6 @@
 // pages/collect/collect.js
+
+const appInstance = getApp()
 Page({
 
   /**
@@ -28,7 +30,10 @@ Page({
       {name: "收藏名2",time: "2023-10-1"}
     ],
     // 查找过后的数据值
-    search_img_name_time: []
+    search_img_name_time: [],
+    id:"1111",
+    image:"",
+    name:"",
   },
 
   // 输入框结果实施呈现
@@ -56,11 +61,30 @@ Page({
     })
   },
 
+    // 跳转到用户页面
+    user(){
+      wx.navigateTo({
+        url: '/pages/user/user',
+      })
+    },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    if(appInstance.globalData.userInfo != "" && appInstance.globalData.image != "" && appInstance.globalData.name != ""){
+      console.log("用户id，头像，图片都有")
+    }
+    else{
+      wx.navigateTo({
+        url: '/pages/user-perfect/user-perfect'
+      })
+    }
+    this.setData({
+      id:111,
+      image: appInstance.globalData.image,
+      name: appInstance.globalData.name
+    })
   },
 
   /**

@@ -28,6 +28,8 @@ App({
     })
   },
   globalData: {
-    userInfo: "用户id"
+    userInfo: "用户id",
+    image:"",
+    name:""
   }
 })

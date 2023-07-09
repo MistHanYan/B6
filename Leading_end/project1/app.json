@@ -12,7 +12,8 @@
     "pages/Component/Compoent_identify/Compoent_identify",
     "pages/Component/Component_collect/Component_collect",
     "pages/collect_outcome/collect_outcome",
-    "pages/history_outcome/history_outcome"
+    "pages/history_outcome/history_outcome",
+    "pages/user-perfect/user-perfect"
   ],
   "window": {
     "backgroundTextStyle": "light",

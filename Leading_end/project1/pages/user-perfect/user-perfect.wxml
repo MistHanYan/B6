@@ -1,0 +1,13 @@
+<!--pages/user-perfect/user-perfect.wxml-->
+<form bindsubmit="formSubmit">
+  <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+    <image class="avatar" src="{{avatarUrl}}"></image>
+  </button>
+  <view class="input">
+    <text>昵称：</text>
+    <input name="input" type="nickname" class="weui-input" placeholder="请输入昵称" />
+  </view>
+  <view>
+    <button type="primary" formType="submit" class="submint">Submit</button>
+  </view>
+</form>

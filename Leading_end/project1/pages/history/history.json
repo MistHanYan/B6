@@ -1,8 +1,6 @@
 {
   "usingComponents": {
-    "Component-user":"/pages/Component/Compoent_identify/Compoent_identify",
-    "Component-bootom-name":"/pages/Component/Component_Nbar/Component_Nbar",
-    "Component-collect":"/pages/Component/Component_collect/Component_collect"
+    "Component-bootom-name":"/pages/Component/Component_Nbar/Component_Nbar"
   },
   "navigationBarTitleText": "历史记录"
 }

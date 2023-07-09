@@ -1,19 +1,21 @@
 // pages/index-user/inderx_user.js
+
+const appInstance = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    id: "1111",
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     canIUseGetUserProfile: false,
     canIUseOpenData: false,
-    image:'/pages/Component/img/微信灰色头像.png',
-    name: "微信用户"
+    id: "",
+    image:'',
+    name: ""
   },
   // 跳转到用户界面，函数
   user(){
@@ -53,6 +55,19 @@ Page({
         canIUseGetUserProfile: true
       })
     }
+    if(appInstance.globalData.userInfo != "" && appInstance.globalData.image != "" && appInstance.globalData.name != ""){
+      console.log("用户id，头像，图片都有")
+    }
+    else{
+      wx.navigateTo({
+        url: '/pages/user-perfect/user-perfect'
+      })
+    }
+    this.setData({
+      id:111,
+      image: appInstance.globalData.image,
+      name: appInstance.globalData.name
+    })
   },
 
   getUserProfile(e) {

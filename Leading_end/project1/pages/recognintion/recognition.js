@@ -50,9 +50,19 @@ Page({
     var show = this.data.show
     console.log(imgPath)
     console.log(appInstance.globalData)
-    this.setData({
-      show: !show
-    })
+    if(appInstance.globalData.userInfo != "" && appInstance.globalData.image != "" && appInstance.globalData.name != ""){
+      // 开始识别
+      console.log("开始识别")
+      // 显示其他按钮
+      this.setData({
+        show: !show
+      })
+    }
+    else{
+      wx.navigateTo({
+        url: '/pages/user-perfect/user-perfect'
+      })
+    }
   },
 
   // 弹出收藏对话框

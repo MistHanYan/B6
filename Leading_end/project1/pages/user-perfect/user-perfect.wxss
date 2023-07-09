@@ -1,0 +1,24 @@
+/* pages/user-perfect/user-perfect.wxss */
+.avatar{
+  width: 100px;
+  height: 100px;
+}
+
+.weui-input{
+  margin:10px 0px;
+}
+
+.input{
+  display: flex;
+  /* justify-content :center; */
+  align-items:center;
+  /* flex-direction:column; */
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  margin:10px 0px;
+}
+
+.submint{
+  text-align: center;
+  margin: 30rpx 0;
+}

@@ -1,6 +1,25 @@
 <!--pages/collect/collect.wxml-->
 <!-- 收藏窗口 -->
-<Component-user></Component-user>
+<view class="top">
+  <!-- 跳转到 用户界面 -->
+  <view class="top-user" bindtap="user">
+    <!-- 获取头像 -->
+    <view class="top-user-image">
+      <view class="userinfo-avatar">
+        <image src="{{ image }}" mode="" class="image" />
+      </view>
+    </view>
+    <!-- 获取名称 -->
+    <view class="right-username">
+      <view class="userNickName">
+        <text>{{ name }}</text>
+      </view>
+      <view class="id">
+        id：{{id}}
+      </view>
+    </view>
+  </view>
+</view>
 <view class="shouChang">
   <view class="search">
     <input type="text" maxlength="20" focus="true" bindinput="bindKeyInput" placeholder="搜索框" style="width: 500rpx;" />
