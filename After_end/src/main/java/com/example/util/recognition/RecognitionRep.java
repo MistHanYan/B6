@@ -8,7 +8,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 public class RecognitionRep {
-    private static final String AiUrl = "http://127.0.0.1:80/recognition";
+    private static final String AiUrl = "http://127.0.0.1:8000/recognition";
 
     public static String discernOutcome(String imgUrl){
 

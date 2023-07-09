@@ -4,12 +4,12 @@ import com.example.entity.Collection;
 import com.example.entity.History;
 import com.example.entity.Result;
 import com.example.service.UserService;
-import com.example.util.time.GetSystemTime;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 
@@ -24,12 +24,7 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/UserLogIn")
-    public Result logIn(HttpServletRequest request) throws SQLException {
-        if(userService.updateLogInOfTime(request.getHeader("union_id"))){
-            log.info("用户{}，在{}时，登录成功",request.getHeader("union_id"), GetSystemTime.getTime());
-        }
-        return Result.success();
-    }
+    public void logIn(){}
 
     @GetMapping("/UserSignIn")
     public Result signIn(HttpServletRequest request) throws SQLException {
@@ -90,5 +85,15 @@ public class UserController {
     @GetMapping("/recognition")
     public Result recognition(@RequestParam String imgUrl){
         return Result.success(userService.recognition(imgUrl));
+    }
+
+    @PostMapping("/upload")
+    @ResponseBody
+    public Result handleFileUpload(@RequestParam("img") MultipartFile img) {
+        String imgSavedPath = userService.getImgSavedPath(img.getOriginalFilename(),img);
+        if (imgSavedPath.equals("")){
+            return Result.error("上传失败");
+        }
+        return Result.success(imgSavedPath);
     }
 }

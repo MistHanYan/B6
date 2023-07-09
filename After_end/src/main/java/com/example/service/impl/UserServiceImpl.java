@@ -5,14 +5,22 @@ import com.example.entity.History;
 import com.example.service.UserService;
 import com.example.util.db.MySQLUtil;
 import com.example.util.db.UserSQLUtil;
+import com.example.util.jwt_token.Union_id;
 import com.example.util.recognition.RecognitionRep;
+import com.example.util.save.SaveImg;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Override
+    public String getResponse(String js_code) {
+        return Union_id.getUnionId(js_code);
+    }
 
     @Override
     public boolean addUser(String union_id) throws SQLException {
@@ -93,4 +101,8 @@ public class UserServiceImpl implements UserService {
         return RecognitionRep.discernOutcome(imgUrl);
     }
 
+    @Override
+    public String getImgSavedPath(String imgName, MultipartFile img) {
+        return SaveImg.saveImg(imgName,img);
+    }
 }

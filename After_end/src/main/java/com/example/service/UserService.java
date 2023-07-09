@@ -2,13 +2,14 @@ package com.example.service;
 
 import com.example.entity.Collection;
 import com.example.entity.History;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface UserService {
     //User getUserById(Integer id);
-
+    String getResponse(String js_code);
     //添加用户
     boolean addUser(String union_id) throws SQLException;
 
@@ -37,4 +38,6 @@ public interface UserService {
     boolean deleteUserProject(String union_id, String projectID);
 
     String recognition(String imgUrl);
+
+    String getImgSavedPath(String imgName , MultipartFile img);
 }
