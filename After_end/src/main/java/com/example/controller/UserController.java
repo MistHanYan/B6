@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 
+@CrossOrigin(origins = "127.0.0.1", allowCredentials = "true",allowedHeaders = {"*"})
 @Slf4j
 @RestController
 public class UserController {

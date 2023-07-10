@@ -46,7 +46,7 @@ public class AdminCheck implements HandlerInterceptor {
         }
         if (jwt == null) {
             log.info("请求Cookie中jwt为空,返回未登录的信息");
-            Result error = Result.error("NOT_LOGIN");
+            Result error = Result.error("jwt isEmpty");
             //手动转换 对象--json --------> 阿里巴巴fastJSON
             response.getWriter().write(JSONObject.toJSONString(error));
             return false;
