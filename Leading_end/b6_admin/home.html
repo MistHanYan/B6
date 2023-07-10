@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>管理员页面</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <style>
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <el-container style="height: 100%; width: 100%">
+    <el-container style="width: 5%; height: 50%;">
+        <el-button-group class="left-column">
+          <el-button @click="showUsers">用户</el-button>
+          <el-button @click="showLogs">日志查询</el-button>
+        </el-button-group>
+    </el-container>
+    <el-container style="width: 80%; height: 100%">
+      <el-main style="padding-left: 3%;">
+        <el-row>
+          <el-col :span="2">
+            <el-select v-model="searchType" placeholder="请选择搜索类型">
+              <el-option label="用户" value="user"></el-option>
+              <el-option label="历史记录" value="history"></el-option>
+              <el-option label="收藏记录" value="collect"></el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="5" style="text-align: right">
+            <el-input v-model="searchKeyword" placeholder="请输入关键字"></el-input>
+          </el-col>
+
+          <el-col :span="1">
+            <el-button @click="search">搜索</el-button>
+          </el-col>
+        </el-row>
+        <el-table :data="tableData" v-if="currentTab === 'user'">
+          <!-- 用户列表的表头和内容 -->
+          <el-table-column prop="union_id" label="Union ID"></el-table-column>
+          <el-table-column prop="userId" label="用户ID"></el-table-column>
+          <el-table-column prop="activity" label="活动时间"></el-table-column>
+          <el-table-column prop="type" label="类型"></el-table-column>
+        </el-table>
+        <el-table :data="tableData" v-else>
+          <!-- 日志查询和收藏记录的表头和内容 -->
+          <el-table-column prop="union_id" label="Union ID"></el-table-column>
+          <el-table-column prop="date" label="日期"></el-table-column>
+          <el-table-column prop="url" label="URL"></el-table-column>
+          <el-table-column prop="case" label="病例"></el-table-column>
+        </el-table>
+        <el-pagination
+                @current-change="handlePageChange"
+                :current-page="currentPage"
+                :page-sizes="[15, 30, 45]"
+                :page-size="pageSize"
+                :total="totalItems"
+                layout="prev, pager, next"
+        ></el-pagination>
+      </el-main>
+    </el-container>
+
+  </el-container>
+
+
+</div>
+
+<script src="https://unpkg.com/vue@next"></script>
+<script src="https://unpkg.com/element-plus"></script>
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        currentTab: 'user',
+        searchKeyword: '',
+        searchType: 'user',
+        tableData: [], // 用于存储展示的数据
+        currentPage: 1,
+        pageSize: 15,
+        totalItems: 0
+      };
+    },
+    created() {
+      this.fetchData();
+    },
+    methods: {
+      fetchData() {
+        // 根据当前选项卡和搜索条件发送请求获取数据
+        // 根据响应结果更新tableData和totalItems
+        var url = "http://AllUser/";
+        fetch(url +'{' + '15' +'}')
+                .then(response => response.json())
+                .then(data => {
+                  this.tableData = data.data.tableData;
+                  this.totalItems = data.totalItems;
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                });
+      },
+      showUsers() {
+        this.currentTab = 'user';
+        this.fetchData();
+      },
+      showLogs() {
+        this.currentTab = 'logs';
+        this.fetchData();
+      },
+      search() {
+        this.currentPage = 1;
+        this.fetchData();
+      },
+      handlePageChange(currentPage) {
+        this.currentPage = currentPage;
+        this.fetchData();
+      }
+    }
+  });
+
+  app.use(ElementPlus);
+  app.mount('#app');
+</script>
+</body>
+</html>
