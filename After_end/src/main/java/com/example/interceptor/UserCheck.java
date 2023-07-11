@@ -26,7 +26,13 @@ public class UserCheck implements HandlerInterceptor {
 
         // 注册请求直接放行
         if(request.getRequestURI().contains("UserSignIn")){
-            return true;
+            if(userService.addUser(request.getHeader("union_id"))){
+                jwtRedis.save(request.getHeader("union_id"),request.getHeader("注册成功"));
+                return true;
+            }else {
+                response.getWriter().write(JSONObject.toJSONString(Result.error("注册失败")));
+                return false;
+            }
         }
 
         // 登录拦截

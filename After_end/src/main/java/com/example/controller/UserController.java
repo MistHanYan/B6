@@ -25,15 +25,13 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/UserLogIn")
-    public void logIn(){}
+    public void logIn(){
+
+    }
 
     @GetMapping("/UserSignIn")
-    public Result signIn(HttpServletRequest request) throws SQLException {
-        if(userService.addUser(request.getHeader("union_id"))){
-            return Result.success();
-        }else {
-            return Result.error("注册失败");
-        }
+    public Result signIn(){
+        return Result.success();
     }
 
     // 收藏数据加载

@@ -20,6 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(adminCheck).addPathPatterns("/LogIn","/AllUser/**","/AdminSeek/**","/AdminDelete/**",
                 "/AdminUpdate/**","/AdminToCollect/**","/AdminToHistory/**","/Check");
-        registry.addInterceptor(userCheck).addPathPatterns("/UserLogIn","/history/**","/collect/**");
+        registry.addInterceptor(userCheck).addPathPatterns("/UserLogIn","/history/**","/collect/**" , "/UserSignIn",
+                "/recognition","/upload");
     }
 }
