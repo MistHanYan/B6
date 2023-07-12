@@ -30,4 +30,8 @@ public class Result {
     public static Result errorIsEmpty(String msg){
         return new Result(-1,msg,null);
     }
+
+    public static Result userErrorIsEmpty(Object object){
+        return new Result(-1,"用户不存在",object);
+    }
 }

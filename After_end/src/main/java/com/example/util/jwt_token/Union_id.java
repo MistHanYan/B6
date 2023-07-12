@@ -5,7 +5,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class Union_id {
     private static final String appid = "wx6ee0d4d6edcfbc7c";
-    private static final String secret = "90fd7a9771d72240b6bb3d72f774248a";
+    private static final String secret = "059acd606eb39c86784b2f1f1512122d";
 
     public static String getUnionId(String js_code){
         // 创建RestTemplate实例

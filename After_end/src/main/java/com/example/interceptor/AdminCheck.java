@@ -63,8 +63,6 @@ public class AdminCheck implements HandlerInterceptor {
                 String passWd = claims.get("passWd").toString();
                 if(adminService.checkAdmin(phoneNum,passWd)){
                     Admin admin = new Admin();
-                    admin.setJwt(jwt.getValue());
-                    admin.setPassWd(passWd);
                     admin.setPhoneNum(phoneNum);
                     jwtRedis.save(jwt.getValue(),admin);
                     return true;

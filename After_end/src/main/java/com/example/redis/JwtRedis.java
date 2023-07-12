@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class JwtRedis {
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<String,Object> redisTemplate;
 
     public void save(String kay,Object value){
         redisTemplate.opsForValue().set(kay,value);

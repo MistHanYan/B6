@@ -27,7 +27,7 @@ public class UserCheck implements HandlerInterceptor {
         // 注册请求直接放行
         if(request.getRequestURI().contains("UserSignIn")){
             if(userService.addUser(request.getHeader("union_id"))){
-                jwtRedis.save(request.getHeader("union_id"),request.getHeader("注册成功"));
+                jwtRedis.save(request.getHeader("union_id"),request.getHeader("union_id"));
                 return true;
             }else {
                 response.getWriter().write(JSONObject.toJSONString(Result.error("注册失败")));
@@ -39,6 +39,7 @@ public class UserCheck implements HandlerInterceptor {
         if(request.getRequestURI().contains("UserLogIn")){
             // 使用微信接口发送js_code
             JSONObject jsonObject = JSONObject.parseObject(userService.getResponse(request.getParameter("js_code")));
+
             int errorCode = jsonObject.getIntValue("errcode");
 
             // 错误代码拦截
@@ -46,7 +47,7 @@ public class UserCheck implements HandlerInterceptor {
                 response.getWriter().write(JSONObject.toJSONString(Result.error("js_code 无效")));
                 return false;
             }else {
-                String union_id = jsonObject.getString("unionid");
+                String union_id = jsonObject.getString("openid");
 
                 // 空union_id 拦截
                 if (union_id.equals("")) {
@@ -57,7 +58,7 @@ public class UserCheck implements HandlerInterceptor {
 
                     // 检查用户是否在数据库，在则保持到redis
                     if (userService.checkUnionId(union_id)) {
-                        jwtRedis.save(union_id,union_id);
+
                         // 更新用户时间
                         if(userService.updateLogInOfTime(union_id)){
                             log.info("用户{}，在{}时登录",union_id,GetSystemTime.getTime());
@@ -65,10 +66,13 @@ public class UserCheck implements HandlerInterceptor {
                         User user = new User();
                         user.setUnion_id(union_id);
                         user.setActivity(GetSystemTime.getTime());
+                        jwtRedis.save(union_id,user);
                         response.getWriter().write(JSONObject.toJSONString(Result.success(user)));
                         return true;
+                    }else {
+                        response.getWriter().write(JSONObject.toJSONString(Result.userErrorIsEmpty(union_id)));
+                        return false;
                     }
-                    response.getWriter().write(JSONObject.toJSONString(Result.errorIsEmpty("user isEmpty")));
                 }
             }
         }
