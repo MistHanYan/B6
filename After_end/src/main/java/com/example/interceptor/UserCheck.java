@@ -40,6 +40,7 @@ public class UserCheck implements HandlerInterceptor {
             // 使用微信接口发送js_code
             JSONObject jsonObject = JSONObject.parseObject(userService.getResponse(request.getParameter("js_code")));
 
+            System.out.println(jsonObject.toJSONString());
             int errorCode = jsonObject.getIntValue("errcode");
 
             // 错误代码拦截

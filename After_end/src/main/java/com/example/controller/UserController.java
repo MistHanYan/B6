@@ -89,7 +89,9 @@ public class UserController {
     @PostMapping("/upload")
     @ResponseBody
     public Result handleFileUpload(@RequestParam("img") MultipartFile img) {
+        System.out.println(img.getOriginalFilename());
         String imgSavedPath = userService.getImgSavedPath(img.getOriginalFilename(),img);
+        System.out.println(imgSavedPath);
         if (imgSavedPath.equals("")){
             return Result.error("上传失败");
         }

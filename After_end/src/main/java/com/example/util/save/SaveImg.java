@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class SaveImg {
     // 服务器图片仓库地址
-    private static final String imgPath = "~/img/";
+    private static final String imgPath = "/root/img/";
 
     // 保存图片
     public static String saveImg(String imgName , MultipartFile img){
@@ -19,7 +19,7 @@ public class SaveImg {
             img.transferTo(imgFile);
             // 获取上传文件的相对路径
             // 返回上传文件的相对路径
-            return "~/img/" + imgName;
+            return imgPath + imgName;
         } catch (IOException e) {
             e.printStackTrace();
             return "";
