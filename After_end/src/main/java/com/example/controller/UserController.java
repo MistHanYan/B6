@@ -50,6 +50,7 @@ public class UserController {
     @PostMapping("/history/add")
     public Result userAddHistory(@RequestBody History history){
         history.setUnion_id(request.getHeader("union_id"));
+        System.out.println(history);
         if(userService.addUserHistory(history)){
             return Result.success();
         }
@@ -60,6 +61,7 @@ public class UserController {
     @PostMapping("/collect/add")
     public Result userAddCollect(@RequestBody Collection collection){
         collection.setUnion_id(request.getHeader("union_id"));
+        System.out.println(collection);
             if(userService.addUserCollect(collection)){
                 return Result.success();
             }

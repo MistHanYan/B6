@@ -135,7 +135,7 @@ public final class MySQLUtil{
             History history = new History();
             history.setUnion_id("union_id");
             history.setUrl(set.getString("img_url"));
-            history.setCase(set.getString("case_name"));
+            history.setCaseName(set.getString("case_name"));
             history.setDate(set.getTimestamp("time"));
             histories.add(history);
         }
@@ -147,7 +147,7 @@ public final class MySQLUtil{
         return outcome(getInsertSql(sql,
                 getTime(),
                 history.getUnion_id(),
-                history.getCase(),
+                history.getCaseName(),
                 history.getUrl()).executeUpdate());
     }
 
